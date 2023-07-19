@@ -10,6 +10,7 @@ import javax.persistence.Table;
 
 import lombok.Data;
 
+//상품 기본 정보
 @Data
 @Entity
 @Table(name="ITEM_INFO")

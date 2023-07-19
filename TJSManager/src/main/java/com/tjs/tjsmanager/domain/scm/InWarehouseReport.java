@@ -6,6 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.tjs.tjsmanager.domain.hrm.Employee;
@@ -24,9 +26,13 @@ public class InWarehouseReport {
 	private Long reportNum;
 	
 //	입고 신청한 지점 번호
+	@ManyToOne
+	@JoinColumn(name="STORE_NUM")
 	private ManagedStore storeNum;
 	
 //	물품 번호
+	@ManyToOne
+	@JoinColumn(name="ITEM_NUM")
 	private ItemInfo itemNum;
 	
 //	입고 요청 수량
@@ -38,7 +44,8 @@ public class InWarehouseReport {
 	private Date reqDate;
 	
 //	신청서 작성자 번호
-	@Column(name="WRITER_NUM")
+	@ManyToOne
+	@JoinColumn(name="WRITER_NUM")
 	private Employee writerNum;
 	
 //	점장 승인일

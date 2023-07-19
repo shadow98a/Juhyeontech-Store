@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Getter
 @EqualsAndHashCode
-class MembershipCustomerRecordPrimaryKey implements Serializable{
+public class MembershipCustomerRecordPrimaryKey implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 //	멤버쉽 고객 번호

@@ -1,8 +1,10 @@
 package com.tjs.tjsmanager.domain.scm;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -14,12 +16,15 @@ import lombok.Data;
 public class SalesConsumer {
 //	판매 번호
 	@Id
-	
+	@ManyToOne
+	@JoinColumn(name="SALES_NUM")
 	private SalesRecord salesNum;
 	
 //	구매자 성별
+	@Column(name="CONSYUMER_GENDER")
 	private String consumerGender;
 	
 //	구매자 나이대
-	private Long consumerAge;
+	@Column(name="CONSUMER_AGE")
+	private Integer consumerAge;
 }
