@@ -6,7 +6,7 @@ import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.tjs.tjsmanager.domain.scm.SalesRecord;
+import com.tjs.tjsmanager.domain.scm.SalesConsumer;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -18,17 +18,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Getter
 @EqualsAndHashCode
-class MembershipCustomerRecordPrimaryKey implements Serializable{
+public class MembershipCustomerRecordPrimaryKey implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 //	멤버쉽 고객 번호
-	@ManyToOne
 	@JoinColumn(name="CUSTOMER_NUM")
+	@ManyToOne
 	private MembershipCustomer customerNum;
 	
 //	판매(구매) 번호
-	@ManyToOne
 	@JoinColumn(name="SALES_NUM")
-	private SalesRecord salesNum;
+	@ManyToOne
+	private SalesConsumer salesNum;
 }
 
