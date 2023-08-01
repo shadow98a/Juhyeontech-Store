@@ -21,7 +21,6 @@ import com.tjs.tjsmanager.domain.scm.ItemInfo;
 import com.tjs.tjsmanager.domain.scm.ItemStock;
 import com.tjs.tjsmanager.domain.scm.ItemStockPrimaryKey;
 import com.tjs.tjsmanager.domain.scm.ManagedStore;
-import com.tjs.tjsmanager.domain.scm.ReqInWarehouse;
 import com.tjs.tjsmanager.domain.scm.SalesConsumer;
 import com.tjs.tjsmanager.domain.scm.SalesRecord;
 import com.tjs.tjsmanager.domain.scm.SalesRecordPrimaryKey;
@@ -36,7 +35,6 @@ import com.tjs.tjsmanager.repository.scm.InWarehouseReportRepository;
 import com.tjs.tjsmanager.repository.scm.ItemInfoRepository;
 import com.tjs.tjsmanager.repository.scm.ItemStockRepository;
 import com.tjs.tjsmanager.repository.scm.ManagedStoreRepository;
-import com.tjs.tjsmanager.repository.scm.ReqInWarehouseRepository;
 import com.tjs.tjsmanager.repository.scm.SalesConsumerRepository;
 import com.tjs.tjsmanager.repository.scm.SalesRecordRepository;
 
@@ -53,9 +51,6 @@ public class SampleCreator {
 
 	@Autowired
 	InWarehouseReportRepository inWarehouseReportRepository;
-
-	@Autowired
-	ReqInWarehouseRepository reqInWarehouseRepository;
 
 	@Autowired
 	ItemStockRepository itemStockRepository;
@@ -94,7 +89,6 @@ public class SampleCreator {
 		
 //		Create SCM samples
 		createReports();
-		createRequests();
 		createStocks();
 		
 //		Create CRM samples
@@ -239,22 +233,6 @@ public class SampleCreator {
 	}
 
 //	@Test
-	public void createRequests() {
-		ReqInWarehouse request;
-		InWarehouseReport report;
-		Iterator<InWarehouseReport> iterator = inWarehouseReportRepository.findByApprovedDateIsNotNull().iterator();
-		while (iterator.hasNext()) {
-			request = new ReqInWarehouse();
-			report = iterator.next();
-			request.setStoreNum(report.getStoreNum());
-			request.setItemNum(report.getItemNum());
-			request.setReqCnt(report.getReqCnt());
-			request.setReqDate(report.getReqDate());
-			reqInWarehouseRepository.save(request);
-		}
-	}
-
-//	@Test
 	public void createStocks() {
 		ItemStock stock;
 
@@ -342,6 +320,8 @@ public class SampleCreator {
 		SalesConsumer consumer = new SalesConsumer();
 		consumer.setConsumerGender("m");
 		consumer.setConsumerAge(20);
+//		consumer.setSalesDate(LocalDateTime.now());하지 않아도 지금으로 초기화 
+		consumer.setMemo("메모");
 		salesConsumerRepository.save(consumer);
 
 //		판매 이력 기록
@@ -350,17 +330,13 @@ public class SampleCreator {
 		salesRecord = new SalesRecord();
 		salesRecord.setPrimaryKey(new SalesRecordPrimaryKey(consumer, itemInfoRepository.findByItemName("빵").get(0)));
 		salesRecord.setStoreNum(managedStoreRepository.findByStoreName("씨앗 편의점 '앗편' 중랑구점").get(0));
-//		salesRecord.setSalesDate(LocalDateTime.now());하지 않아도 지금으로 초기화 
 		salesRecord.setSalesCnt(1);
-		salesRecord.setMemo(null);
 		salesRecordRepository.save(salesRecord);
 
 		salesRecord = new SalesRecord();
 		salesRecord.setPrimaryKey(new SalesRecordPrimaryKey(consumer, itemInfoRepository.findByItemName("과자").get(0)));
 		salesRecord.setStoreNum(managedStoreRepository.findByStoreName("씨앗 편의점 '앗편' 중랑구점").get(0));
-//		salesRecord.setSalesDate(LocalDateTime.now());하지 않아도 지금으로 초기화 
 		salesRecord.setSalesCnt(2);
-		salesRecord.setMemo("메모");
 		salesRecordRepository.save(salesRecord);
 
 //		멤버십 고객 구매 이력 기록
