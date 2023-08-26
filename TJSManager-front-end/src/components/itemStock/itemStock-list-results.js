@@ -18,9 +18,8 @@ import {
 import { getInitials } from '../../utils/get-initials';
 
 // export const ItemStockListResults = ({ itemStocks, ...rest }) => {
-export const ItemStockListResults = ({ itemStocks, selectedItemStockIds,setSelectedItemStockIds,searchKeyword,...rest }) => {
+export const ItemStockListResults = ({ itemStocks, selectedItemStockIds,setSelectedItemStockIds,...rest }) => {
   // const [selectedItemStockIds, setSelectedItemStockIds] = useState([]);
-  const searchedItemStocks=itemStocks.filter((itemStock)=>{return (itemStock.primaryKey.itemNum.itemNum==Number(searchKeyword)||itemStock.primaryKey.itemNum.itemName.includes(searchKeyword))||(itemStock.primaryKey.storeNum.storeNum==Number(searchKeyword)||itemStock.primaryKey.storeNum.storeName.includes(searchKeyword))||itemStock.inCnt==Number(searchKeyword)||itemStock.outCnt==Number(searchKeyword)||itemStock.dropCnt==Number(searchKeyword)||(itemStock.lot!==null&&itemStock.lot.includes(searchKeyword))||itemStock.sale==Number(searchKeyword)||(itemStock.event!==null&&itemStock.event.includes(searchKeyword));});
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
 
@@ -28,7 +27,7 @@ export const ItemStockListResults = ({ itemStocks, selectedItemStockIds,setSelec
     let newSelectedItemStockIds;
 
     if (event.target.checked) {
-      newSelectedItemStockIds = searchedItemStocks.map((itemStock) => JSON.stringify({itemNum:itemStock.primaryKey.itemNum.itemNum,storeNum:itemStock.primaryKey.storeNum.storeNum}));
+      newSelectedItemStockIds = itemStocks.map((itemStock) => JSON.stringify({itemNum:itemStock.primaryKey.itemNum.itemNum,storeNum:itemStock.primaryKey.storeNum.storeNum}));
     } else {
       newSelectedItemStockIds = [];
     }
@@ -73,11 +72,11 @@ export const ItemStockListResults = ({ itemStocks, selectedItemStockIds,setSelec
               <TableRow>
                 <TableCell padding="checkbox">
                   <Checkbox
-                    checked={selectedItemStockIds.length === searchedItemStocks.length}
+                    checked={selectedItemStockIds.length === itemStocks.length}
                     color="primary"
                     indeterminate={
                       selectedItemStockIds.length > 0
-                      && selectedItemStockIds.length < searchedItemStocks.length
+                      && selectedItemStockIds.length < itemStocks.length
                     }
                     onChange={handleSelectAll}
                   />
@@ -109,7 +108,7 @@ export const ItemStockListResults = ({ itemStocks, selectedItemStockIds,setSelec
               </TableRow>
             </TableHead>
             <TableBody>
-              {searchedItemStocks.slice(limit*page, limit*(page+1)).map((itemStock) => (
+              {itemStocks.slice(limit*page, limit*(page+1)).map((itemStock) => (
                 <TableRow
                   hover
                   key={JSON.stringify({itemNum:itemStock.primaryKey.itemNum.itemNum,storeNum:itemStock.primaryKey.storeNum.storeNum})}
@@ -154,7 +153,7 @@ export const ItemStockListResults = ({ itemStocks, selectedItemStockIds,setSelec
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count={searchedItemStocks.length}
+        count={itemStocks.length}
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleLimitChange}
         page={page}
@@ -166,5 +165,5 @@ export const ItemStockListResults = ({ itemStocks, selectedItemStockIds,setSelec
 };
 
 ItemStockListResults.propTypes = {
-  searchedItemStocks: PropTypes.array.isRequired
+  itemStocks: PropTypes.array.isRequired
 };

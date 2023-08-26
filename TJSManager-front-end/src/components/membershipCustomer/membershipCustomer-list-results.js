@@ -18,9 +18,8 @@ import {
 import { getInitials } from '../../utils/get-initials';
 
 // export const MembershipCustomerListResults = ({ membershipCustomers, ...rest }) => {
-export const MembershipCustomerListResults = ({ membershipCustomers, selectedMembershipCustomerIds,setSelectedMembershipCustomerIds,searchKeyword,...rest }) => {
+export const MembershipCustomerListResults = ({ membershipCustomers, selectedMembershipCustomerIds,setSelectedMembershipCustomerIds,...rest }) => {
   // const [selectedMembershipCustomerIds, setSelectedMembershipCustomerIds] = useState([]);
-  const searchedMembershipCustomers=membershipCustomers.filter((membershipCustomer)=>{return membershipCustomer.customerNum==Number(searchKeyword)||membershipCustomer.customerName.includes(searchKeyword)||membershipCustomer.customerBirthDate.includes(searchKeyword)||membershipCustomer.customerGender.includes(searchKeyword)||membershipCustomer.customerPhoneNum.includes(searchKeyword)||membershipCustomer.point==Number(searchKeyword)||(membershipCustomer.joinedStoreNum.storeNum==Number(searchKeyword)||membershipCustomer.joinedStoreNum.storeName.includes(searchKeyword));});
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
 
@@ -28,7 +27,7 @@ export const MembershipCustomerListResults = ({ membershipCustomers, selectedMem
     let newSelectedMembershipCustomerIds;
 
     if (event.target.checked) {
-      newSelectedMembershipCustomerIds = searchedMembershipCustomers.map((membershipCustomer) => JSON.stringify({customerNum:membershipCustomer.customerNum}));
+      newSelectedMembershipCustomerIds = membershipCustomers.map((membershipCustomer) => JSON.stringify({customerNum:membershipCustomer.customerNum}));
     } else {
       newSelectedMembershipCustomerIds = [];
     }
@@ -73,11 +72,11 @@ export const MembershipCustomerListResults = ({ membershipCustomers, selectedMem
               <TableRow>
                 <TableCell padding="checkbox">
                   <Checkbox
-                    checked={selectedMembershipCustomerIds.length === searchedMembershipCustomers.length}
+                    checked={selectedMembershipCustomerIds.length === membershipCustomers.length}
                     color="primary"
                     indeterminate={
                       selectedMembershipCustomerIds.length > 0
-                      && selectedMembershipCustomerIds.length < searchedMembershipCustomers.length
+                      && selectedMembershipCustomerIds.length < membershipCustomers.length
                     }
                     onChange={handleSelectAll}
                   />
@@ -106,7 +105,7 @@ export const MembershipCustomerListResults = ({ membershipCustomers, selectedMem
               </TableRow>
             </TableHead>
             <TableBody>
-              {searchedMembershipCustomers.slice(limit*page, limit*(page+1)).map((membershipCustomer) => (
+              {membershipCustomers.slice(limit*page, limit*(page+1)).map((membershipCustomer) => (
                 <TableRow
                   hover
                   key={JSON.stringify({customerNum:membershipCustomer.customerNum})}
@@ -160,7 +159,7 @@ export const MembershipCustomerListResults = ({ membershipCustomers, selectedMem
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count={searchedMembershipCustomers.length}
+        count={membershipCustomers.length}
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleLimitChange}
         page={page}
@@ -172,5 +171,5 @@ export const MembershipCustomerListResults = ({ membershipCustomers, selectedMem
 };
 
 MembershipCustomerListResults.propTypes = {
-  searchedMembershipCustomers: PropTypes.array.isRequired
+  membershipCustomers: PropTypes.array.isRequired
 };

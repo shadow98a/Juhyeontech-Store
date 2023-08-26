@@ -124,7 +124,6 @@ return  (
               }}
               placeholder="입고 신청 검색"
               variant="outlined"
-              onChange={(event)=>{props.setSearchKeyword(event.target.value);}}
             />
           </Box>
         </CardContent>
